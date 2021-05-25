@@ -218,12 +218,7 @@ namespace HandyControl.Controls
             #region Calc AvailableSize
 
             _childGraph.Reset(false);
-
-
-            var calcWidth = Width.IsNaN() && HorizontalAlignment != HorizontalAlignment.Stretch;
-            var calcHeight = Height.IsNaN() && VerticalAlignment != VerticalAlignment.Stretch;
-
-            var boundingSize = _childGraph.GetBoundingSize(calcWidth, calcHeight);
+            var boundingSize = _childGraph.GetBoundingSize(Width.IsNaN(), Height.IsNaN());
             _childGraph.Reset();
             _childGraph.Measure(boundingSize);
             return boundingSize;

@@ -6134,7 +6134,7 @@
 				<ColumnDefinition Width="{Binding Path=(hc:InfoElement.TitleWidth),RelativeSource={RelativeSource TemplatedParent}}" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<DockPanel LastChildFill="True" Visibility="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource String2VisibilityConverter}}" HorizontalAlignment="{Binding Path=(hc:TitleElement.HorizontalAlignment),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="{Binding Path=(hc:TitleElement.VerticalAlignment),RelativeSource={RelativeSource TemplatedParent}}" Margin="0,7,6,7">
+			<DockPanel LastChildFill="True" Visibility="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource String2VisibilityConverter}}" VerticalAlignment="{Binding Path=(hc:TitleElement.VerticalAlignment),RelativeSource={RelativeSource TemplatedParent}}" Margin="0,7,6,7">
 				<ContentPresenter DockPanel.Dock="Right" TextElement.Foreground="{DynamicResource DangerBrush}" Margin="4,0,0,0" Content="{Binding Path=(hc:InfoElement.Symbol),RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding Path=(hc:InfoElement.Necessary),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource Boolean2VisibilityConverter}}" />
 				<TextBlock hc:TextBlockAttach.AutoTooltip="True" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent}}" />
 			</DockPanel>
@@ -6243,7 +6243,7 @@
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<TextBlock FontSize="12" Text="{TemplateBinding ErrorStr}" Name="TextBlockError" VerticalAlignment="Bottom" Margin="9,0,0,4" Foreground="{DynamicResource DangerBrush}" Grid.Column="1" />
-			<DockPanel LastChildFill="True" Grid.Column="0" Visibility="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource String2VisibilityConverter}}" HorizontalAlignment="{Binding Path=(hc:TitleElement.HorizontalAlignment),RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="{Binding Path=(hc:TitleElement.VerticalAlignment),RelativeSource={RelativeSource TemplatedParent}}" Margin="0,7,6,7">
+			<DockPanel LastChildFill="True" Grid.Column="0" Visibility="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource String2VisibilityConverter}}" VerticalAlignment="{Binding Path=(hc:TitleElement.VerticalAlignment),RelativeSource={RelativeSource TemplatedParent}}" Margin="0,7,6,7">
 				<ContentPresenter DockPanel.Dock="Right" TextElement.Foreground="{DynamicResource DangerBrush}" Margin="4,0,0,0" Content="{Binding Path=(hc:InfoElement.Symbol),RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding Path=(hc:InfoElement.Necessary),RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource Boolean2VisibilityConverter}}" />
 				<TextBlock hc:TextBlockAttach.AutoTooltip="True" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Path=(hc:InfoElement.Title),RelativeSource={RelativeSource TemplatedParent}}" />
 			</DockPanel>
@@ -8379,7 +8379,7 @@
 	<ControlTemplate x:Key="ExpanderLeftTemplate" TargetType="Expander">
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Border x:Name="BorderHeader" Grid.Column="1" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
@@ -8408,14 +8408,14 @@
 				<Setter Property="Data" TargetName="PathArrow" Value="{StaticResource DownGeometry}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="false">
-				<Setter Property="Opacity" Value=".4" />
+				<Setter Property="Opacity" Value="2" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
 	<ControlTemplate x:Key="ExpanderUpTemplate" TargetType="Expander">
 		<Grid>
 			<Grid.RowDefinitions>
-				<RowDefinition />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Border x:Name="BorderHeader" Grid.Row="1" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
@@ -8439,7 +8439,7 @@
 				<Setter Property="Data" TargetName="PathArrow" Value="{StaticResource DownGeometry}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="false">
-				<Setter Property="Opacity" Value=".4" />
+				<Setter Property="Opacity" Value="2" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
@@ -8447,7 +8447,7 @@
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Border x:Name="BorderHeader" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
 				<ToggleButton VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False" Padding="0,0,0,10" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="{TemplateBinding MinWidth}" Style="{StaticResource ToggleButtonCustom}">
@@ -8475,7 +8475,7 @@
 				<Setter Property="Data" TargetName="PathArrow" Value="{StaticResource UpGeometry}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="false">
-				<Setter Property="Opacity" Value=".4" />
+				<Setter Property="Opacity" Value="2" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
@@ -8483,7 +8483,7 @@
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
-				<RowDefinition />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Border x:Name="BorderHeader" CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
 				<ToggleButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Focusable="False" Padding="10,0,0,0" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Width="{TemplateBinding Width}" Height="{TemplateBinding MinHeight}" Style="{StaticResource ToggleButtonCustom}">
@@ -8506,7 +8506,7 @@
 				<Setter Property="Data" TargetName="PathArrow" Value="{StaticResource UpGeometry}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="false">
-				<Setter Property="Opacity" Value=".4" />
+				<Setter Property="Opacity" Value="2" />
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
@@ -11297,6 +11297,7 @@
 		<Setter Property="hc:TitleElement.Background" Value="{DynamicResource TitleBrush}" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Margin" Value="8,0,8,8" />
+		<Setter Property="ShowConfirmButton" Value="True" />
 		<Setter Property="hc:BorderElement.CornerRadius" Value="{StaticResource DefaultCornerRadius}" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -12589,7 +12590,7 @@
 	<Style TargetType="hc:TabItem">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+		<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
 		<Setter Property="BorderThickness" Value="1,0,1,1" />
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
 		<Setter Property="Margin" Value="0" />
@@ -12620,14 +12621,14 @@
 							</Border.OpacityMask>
 						</Border>
 						<Button Grid.Column="2" Focusable="False" Command="interactivity:ControlCommands.Close" Visibility="{TemplateBinding ShowCloseButton,Converter={StaticResource Boolean2VisibilityConverter}}" Background="Transparent" Style="{StaticResource ButtonCustom}" Width="28">
-							<Path Fill="{DynamicResource PrimaryTextBrush}" Width="8" Height="8" Style="{StaticResource ClosePathStyle}" />
+							<Path x:Name="pathmask" Fill="{DynamicResource PrimaryTextBrush}" Width="8" Height="8" Style="{StaticResource ClosePathStyle}" />
 						</Button>
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsSelected" Value="true">
-							<Setter Property="Panel.ZIndex" Value="1" />
-							<Setter Property="Visibility" TargetName="innerBorder" Value="Visible" />
-							<Setter Property="Background" TargetName="BorderMask" Value="{DynamicResource RegionBrush}" />
+							<Setter Property="Background" Value="#007ACC" />
+							<Setter Property="TextBlock.Foreground" Value="#ffffff" TargetName="contentPresenter" />
+							<Setter Property="Fill" Value="#ffffff" TargetName="pathmask" />
 						</Trigger>
 						<Trigger Property="hc:IconElement.Geometry" Value="{x:Null}">
 							<Setter Property="Visibility" Value="Collapsed" TargetName="PathMain" />
@@ -12638,6 +12639,17 @@
 						<Trigger Property="IsEnabled" Value="False">
 							<Setter Property="Opacity" Value="0.4" TargetName="contentPresenter" />
 						</Trigger>
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsSelected" Value="False" />
+								<Condition Property="IsMouseOver" Value="True" />
+							</MultiTrigger.Conditions>
+							<MultiTrigger.Setters>
+								<Setter Property="Background" Value="#1C98EA" />
+								<Setter Property="TextBlock.Foreground" Value="#ffffff" TargetName="contentPresenter" />
+								<Setter Property="Fill" Value="#ffffff" TargetName="pathmask" />
+							</MultiTrigger.Setters>
+						</MultiTrigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
@@ -12654,7 +12666,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}">
+				<Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,0" BorderBrush="{DynamicResource BorderBrush}">
 					<hc:TabPanel MinHeight="{TemplateBinding TabItemHeight}" TabItemHeight="{TemplateBinding TabItemHeight}" TabItemWidth="{TemplateBinding TabItemWidth}" IsTabFillEnabled="{TemplateBinding IsTabFillEnabled}" Margin="0,0,-1,-1" x:Name="PART_HeaderPanel" HorizontalAlignment="Left" Background="{DynamicResource SecondaryTextBrush}" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1">
 						<interactivity:Interaction.Behaviors>
 							<interactivity:FluidMoveBehavior AppliesTo="Children" Duration="{Binding FluidMoveDuration,ElementName=PART_HeaderPanel}">
