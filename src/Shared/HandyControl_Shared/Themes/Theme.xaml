@@ -6090,7 +6090,7 @@
 							<Setter Property="Opacity" TargetName="border" Value="0.4" />
 						</Trigger>
 						<Trigger Property="IsMouseOver" Value="true">
-							<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryBrush}" />
+							<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource SecondaryBorderBrush}" />
 						</Trigger>
 						<Trigger Property="IsFocused" Value="true">
 							<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource PrimaryBrush}" />
@@ -6352,7 +6352,7 @@
 				<Setter Property="Opacity" TargetName="templateRoot" Value="0.4" />
 			</Trigger>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="BorderBrush" Value="{DynamicResource SecondaryBorderBrush}" />
+				<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
 			</Trigger>
 			<Trigger Property="IsFocused" Value="true">
 				<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
