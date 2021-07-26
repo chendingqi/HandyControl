@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using HandyControl.Properties.Langs;
@@ -27,7 +28,9 @@ namespace HandyControl.Controls
             [typeof(DateTime)] = EditorTypeCode.DateTime,
             [typeof(HorizontalAlignment)] = EditorTypeCode.HorizontalAlignment,
             [typeof(VerticalAlignment)] = EditorTypeCode.VerticalAlignment,
-            [typeof(ImageSource)] = EditorTypeCode.ImageSource
+            [typeof(ImageSource)] = EditorTypeCode.ImageSource,
+            [typeof(StringBuilder)] = EditorTypeCode.BtnText,
+            [typeof(object)] = EditorTypeCode.Object,
         };
 
         public string ResolveCategory(PropertyDescriptor propertyDescriptor)
@@ -96,6 +99,8 @@ namespace HandyControl.Controls
                     EditorTypeCode.HorizontalAlignment => new HorizontalAlignmentPropertyEditor(),
                     EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
                     EditorTypeCode.ImageSource => new ImagePropertyEditor(),
+                    EditorTypeCode.BtnText => new BtnTextPropertyEditor(),
+                    EditorTypeCode.Object => new EnumStrPropertyEditor(),
                     _ => new ReadOnlyTextPropertyEditor()
                 }
                 : type.IsSubclassOf(typeof(Enum))
@@ -121,7 +126,9 @@ namespace HandyControl.Controls
             DateTime,
             HorizontalAlignment,
             VerticalAlignment,
-            ImageSource
+            ImageSource,
+            Object,
+            BtnText
         }
     }
 }

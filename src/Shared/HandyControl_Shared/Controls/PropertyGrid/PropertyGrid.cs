@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -27,37 +28,99 @@ namespace HandyControl.Controls
 
         private string _searchKey;
 
-        public PropertyGrid()
+        public static List<CategoryInfo> EnumStrItem = new List<CategoryInfo>();
+
+        public static readonly RoutedEvent SelectedObjectChangedEvent = EventManager.RegisterRoutedEvent("SelectedObjectChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(PropertyGrid));
+
+        public static readonly DependencyProperty SelectedObjectProperty = DependencyProperty.Register("SelectedObject", typeof(object), typeof(PropertyGrid), new PropertyMetadata(null, OnSelectedObjectChanged));
+
+        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(PropertyGrid), new PropertyMetadata((object) null));
+
+        public static readonly DependencyProperty MaxTitleWidthProperty = DependencyProperty.Register("MaxTitleWidth", typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
+
+        public static readonly DependencyProperty MinTitleWidthProperty = DependencyProperty.Register("MinTitleWidth", typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
+
+        public virtual PropertyResolver PropertyResolver
         {
-            CommandBindings.Add(new CommandBinding(ControlCommands.SortByCategory, SortByCategory, (s, e) => e.CanExecute = ShowSortButton));
-            CommandBindings.Add(new CommandBinding(ControlCommands.SortByName, SortByName, (s, e) => e.CanExecute = ShowSortButton));
-        }
+            get;
+        } = new PropertyResolver();
 
-        public virtual PropertyResolver PropertyResolver { get; } = new PropertyResolver();
-
-        public static readonly RoutedEvent SelectedObjectChangedEvent =
-            EventManager.RegisterRoutedEvent("SelectedObjectChanged", RoutingStrategy.Bubble,
-                typeof(RoutedPropertyChangedEventHandler<object>), typeof(PropertyGrid));
-
-        public event RoutedPropertyChangedEventHandler<object> SelectedObjectChanged
-        {
-            add => AddHandler(SelectedObjectChangedEvent, value);
-            remove => RemoveHandler(SelectedObjectChangedEvent, value);
-        }
-
-        public static readonly DependencyProperty SelectedObjectProperty = DependencyProperty.Register(
-            "SelectedObject", typeof(object), typeof(PropertyGrid), new PropertyMetadata(default, OnSelectedObjectChanged));
-
-        private static void OnSelectedObjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var ctl = (PropertyGrid) d;
-            ctl.OnSelectedObjectChanged(e.OldValue, e.NewValue);
-        }
 
         public object SelectedObject
         {
-            get => GetValue(SelectedObjectProperty);
-            set => SetValue(SelectedObjectProperty, value);
+            get
+            {
+                return GetValue(SelectedObjectProperty);
+            }
+            set
+            {
+                SetValue(SelectedObjectProperty, value);
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return (string) GetValue(DescriptionProperty);
+            }
+            set
+            {
+                SetValue(DescriptionProperty, value);
+            }
+        }
+
+        public double MaxTitleWidth
+        {
+            get
+            {
+                return (double) GetValue(MaxTitleWidthProperty);
+            }
+            set
+            {
+                SetValue(MaxTitleWidthProperty, value);
+            }
+        }
+
+        public double MinTitleWidth
+        {
+            get
+            {
+                return (double) GetValue(MinTitleWidthProperty);
+            }
+            set
+            {
+                SetValue(MinTitleWidthProperty, value);
+            }
+        }
+
+        public event RoutedPropertyChangedEventHandler<object> SelectedObjectChanged
+        {
+            add
+            {
+                AddHandler(SelectedObjectChangedEvent, value);
+            }
+            remove
+            {
+                RemoveHandler(SelectedObjectChangedEvent, value);
+            }
+        }
+
+        public void SetEnumStrItem(List<CategoryInfo> enumStr)
+        {
+            EnumStrItem = enumStr;
+        }
+
+        public PropertyGrid()
+        {
+            base.CommandBindings.Add(new CommandBinding(ControlCommands.SortByCategory, SortByCategory));
+            base.CommandBindings.Add(new CommandBinding(ControlCommands.SortByName, SortByName));
+        }
+
+        private static void OnSelectedObjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            PropertyGrid propertyGrid = (PropertyGrid) d;
+            propertyGrid.OnSelectedObjectChanged(e.OldValue, e.NewValue);
         }
 
         protected virtual void OnSelectedObjectChanged(object oldValue, object newValue)
@@ -66,92 +129,51 @@ namespace HandyControl.Controls
             RaiseEvent(new RoutedPropertyChangedEventArgs<object>(oldValue, newValue, SelectedObjectChangedEvent));
         }
 
-        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-            "Description", typeof(string), typeof(PropertyGrid), new PropertyMetadata(default(string)));
-
-        public string Description
-        {
-            get => (string) GetValue(DescriptionProperty);
-            set => SetValue(DescriptionProperty, value);
-        }
-
-        public static readonly DependencyProperty MaxTitleWidthProperty = DependencyProperty.Register(
-            "MaxTitleWidth", typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
-
-        public double MaxTitleWidth
-        {
-            get => (double) GetValue(MaxTitleWidthProperty);
-            set => SetValue(MaxTitleWidthProperty, value);
-        }
-
-        public static readonly DependencyProperty MinTitleWidthProperty = DependencyProperty.Register(
-            "MinTitleWidth", typeof(double), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.Double0Box));
-
-        public double MinTitleWidth
-        {
-            get => (double) GetValue(MinTitleWidthProperty);
-            set => SetValue(MinTitleWidthProperty, value);
-        }
-
-        public static readonly DependencyProperty ShowSortButtonProperty = DependencyProperty.Register(
-            "ShowSortButton", typeof(bool), typeof(PropertyGrid), new PropertyMetadata(ValueBoxes.TrueBox));
-
-        public bool ShowSortButton
-        {
-            get => (bool) GetValue(ShowSortButtonProperty);
-            set => SetValue(ShowSortButtonProperty, value);
-        }
-
         public override void OnApplyTemplate()
         {
             if (_searchBar != null)
             {
                 _searchBar.SearchStarted -= SearchBar_SearchStarted;
             }
-
             base.OnApplyTemplate();
-
-            _itemsControl = GetTemplateChild(ElementItemsControl) as ItemsControl;
-            _searchBar = GetTemplateChild(ElementSearchBar) as SearchBar;
-
+            _itemsControl = GetTemplateChild("PART_ItemsControl") as ItemsControl;
+            _searchBar = GetTemplateChild("PART_SearchBar") as SearchBar;
             if (_searchBar != null)
             {
                 _searchBar.SearchStarted += SearchBar_SearchStarted;
             }
-
             UpdateItems(SelectedObject);
         }
 
         private void UpdateItems(object obj)
         {
-            if (obj == null || _itemsControl == null) return;
-
-            _dataView = CollectionViewSource.GetDefaultView(TypeDescriptor.GetProperties(obj.GetType()).OfType<PropertyDescriptor>()
-                .Where(item => PropertyResolver.ResolveIsBrowsable(item)).Select(CreatePropertyItem)
-                .Do(item => item.InitElement()));
-
-            SortByCategory(null, null);
-            _itemsControl.ItemsSource = _dataView;
+            if (obj != null && _itemsControl != null)
+            {
+                _dataView = CollectionViewSource.GetDefaultView((from item in TypeDescriptor.GetProperties(obj).OfType<PropertyDescriptor>()
+                                                                 where PropertyResolver.ResolveIsBrowsable(item)
+                                                                 select item).Select(CreatePropertyItem).Do(delegate (PropertyItem item)
+                                                                 {
+                                                                     item.InitElement();
+                                                                 }));
+                SortByCategory(null, null);
+                _itemsControl.ItemsSource = _dataView;
+            }
         }
 
         private void SortByCategory(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_dataView == null) return;
-
             using (_dataView.DeferRefresh())
             {
                 _dataView.GroupDescriptions.Clear();
                 _dataView.SortDescriptions.Clear();
                 _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.CategoryProperty.Name, ListSortDirection.Ascending));
-                _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.DisplayNameProperty.Name, ListSortDirection.Ascending));
+                _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.PropertyNameProperty.Name, ListSortDirection.Ascending));
                 _dataView.GroupDescriptions.Add(new PropertyGroupDescription(PropertyItem.CategoryProperty.Name));
             }
         }
 
         private void SortByName(object sender, ExecutedRoutedEventArgs e)
         {
-            if (_dataView == null) return;
-
             using (_dataView.DeferRefresh())
             {
                 _dataView.GroupDescriptions.Clear();
@@ -162,8 +184,6 @@ namespace HandyControl.Controls
 
         private void SearchBar_SearchStarted(object sender, FunctionEventArgs<string> e)
         {
-            if (_dataView == null) return;
-
             _searchKey = e.Info;
             if (string.IsNullOrEmpty(_searchKey))
             {
@@ -171,34 +191,50 @@ namespace HandyControl.Controls
                 {
                     item.Show();
                 }
+                return;
             }
-            else
+            foreach (PropertyItem item2 in _dataView)
             {
-                foreach (PropertyItem item in _dataView)
-                {
-                    item.Show(item.PropertyName.ToLower().Contains(_searchKey) || item.DisplayName.ToLower().Contains(_searchKey));
-                }
+                item2.Show(item2.PropertyName.ToLower().Contains(_searchKey) || item2.DisplayName.ToLower().Contains(_searchKey));
             }
         }
 
-        protected virtual PropertyItem CreatePropertyItem(PropertyDescriptor propertyDescriptor) => new PropertyItem
+        protected virtual PropertyItem CreatePropertyItem(PropertyDescriptor propertyDescriptor)
         {
-            Category = PropertyResolver.ResolveCategory(propertyDescriptor),
-            DisplayName = PropertyResolver.ResolveDisplayName(propertyDescriptor),
-            Description = PropertyResolver.ResolveDescription(propertyDescriptor),
-            IsReadOnly = PropertyResolver.ResolveIsReadOnly(propertyDescriptor),
-            DefaultValue = PropertyResolver.ResolveDefaultValue(propertyDescriptor),
-            Editor = PropertyResolver.ResolveEditor(propertyDescriptor),
-            Value = SelectedObject,
-            PropertyName = propertyDescriptor.Name,
-            PropertyType = propertyDescriptor.PropertyType,
-            PropertyTypeName = $"{propertyDescriptor.PropertyType.Namespace}.{propertyDescriptor.PropertyType.Name}"
-        };
+            return new PropertyItem
+            {
+                Category = PropertyResolver.ResolveCategory(propertyDescriptor),
+                DisplayName = PropertyResolver.ResolveDisplayName(propertyDescriptor),
+                Description = PropertyResolver.ResolveDescription(propertyDescriptor),
+                IsReadOnly = PropertyResolver.ResolveIsReadOnly(propertyDescriptor),
+                DefaultValue = PropertyResolver.ResolveDefaultValue(propertyDescriptor),
+                Editor = PropertyResolver.ResolveEditor(propertyDescriptor),
+                Value = SelectedObject,
+                PropertyName = propertyDescriptor.Name,
+                PropertyType = propertyDescriptor.PropertyType,
+                PropertyTypeName = propertyDescriptor.PropertyType.Namespace + "." + propertyDescriptor.PropertyType.Name
+            };
+        }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            TitleElement.SetTitleWidth(this, new GridLength(Math.Max(MinTitleWidth, Math.Min(MaxTitleWidth, ActualWidth / 3))));
+            TitleElement.SetTitleWidth(this, new GridLength(Math.Max(MinTitleWidth, Math.Min(MaxTitleWidth, base.ActualWidth / 3.0))));
+        }
+    }
+
+    public class CategoryInfo
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Value
+        {
+            get;
+            set;
         }
     }
 }
