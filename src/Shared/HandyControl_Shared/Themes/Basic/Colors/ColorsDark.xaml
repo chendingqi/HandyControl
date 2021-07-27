@@ -3,8 +3,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <Color x:Key="LightPrimaryColor">#044289</Color>
-    <Color x:Key="PrimaryColor">#326cf3</Color>
-    <Color x:Key="DarkPrimaryColor">#326cf3</Color>
+    <Color x:Key="PrimaryColor">#007ACC</Color>
+    <Color x:Key="DarkPrimaryColor">#007ACC</Color>
 
     <Color x:Key="LightDangerColor">#450c0f</Color>
     <Color x:Key="DangerColor">#db3340</Color>
@@ -34,8 +34,8 @@
     <Color x:Key="RegionColor">#1E1E1E</Color>
     <Color x:Key="SecondaryRegionColor">#2d2d30</Color>
     <Color x:Key="ThirdlyRegionColor">#424242</Color>
-    <Color x:Key="TitleColor">#326cf3</Color>
-    <Color x:Key="SecondaryTitleColor">#326cf3</Color>
+    <Color x:Key="TitleColor">#007ACC</Color>
+    <Color x:Key="SecondaryTitleColor">#007ACC</Color>
 
     <Color x:Key="DefaultColor">#686868</Color>
     <Color x:Key="DarkDefaultColor">#686868</Color>
