@@ -140,7 +140,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <DockPanel LastChildFill="True" Margin="0,0,0,6">
+                            <DockPanel LastChildFill="True" Margin="0,0,0,6" Visibility="Collapsed">
                                 <hc:ButtonGroup Margin="0,0,6,0" Visibility="{Binding ShowSortButton,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource ButtonGroupSolid}">
                                     <RadioButton hc:BorderElement.CornerRadius="0" Command="interactivity:ControlCommands.SortByCategory" IsChecked="True">
                                         <Rectangle Width="16" Height="16" Fill="{StaticResource SortByCategoryDrawingBrush}"/>
