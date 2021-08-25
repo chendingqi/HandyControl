@@ -34,6 +34,16 @@ namespace HandyControl.Controls
             set => SetValue(IsErrorProperty, ValueBoxes.BooleanBox(value));
         }
 
+        public static readonly DependencyProperty CheckTextProperty = DependencyProperty.Register(
+            "CheckText", typeof(string[]), typeof(CheckComboBox), new PropertyMetadata(default(string[])));
+
+        public string[] CheckText
+        {
+            get => (string[]) GetValue(CheckTextProperty);
+            set => SetValue(CheckTextProperty, value);
+        }
+
+
         public static readonly DependencyProperty ErrorStrProperty = DependencyProperty.Register(
             "ErrorStr", typeof(string), typeof(CheckComboBox), new PropertyMetadata(default(string)));
 
@@ -142,7 +152,9 @@ namespace HandyControl.Controls
             _selectAllItem = GetTemplateChild(ElementSelectAll) as CheckComboBoxItem;
             if (_selectAllItem != null)
             {
-                _selectAllItem.Selected += SelectAllItem_Selected;
+                _selectAllItem.SetCurrentValue(IsSelectedProperty, true);
+
+               _selectAllItem.Selected += SelectAllItem_Selected;
                 _selectAllItem.Unselected += SelectAllItem_Unselected;
             }
 
@@ -241,6 +253,7 @@ namespace HandyControl.Controls
             _panel.Children.Clear();
 
             foreach (var item in SelectedItems)
+
             {
                 if (ItemContainerGenerator.ContainerFromItem(item) is CheckComboBoxItem checkComboBoxItem)
                 {

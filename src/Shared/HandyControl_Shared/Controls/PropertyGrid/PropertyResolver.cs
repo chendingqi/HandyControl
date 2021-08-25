@@ -31,6 +31,7 @@ namespace HandyControl.Controls
             [typeof(ImageSource)] = EditorTypeCode.ImageSource,
             [typeof(StringBuilder)] = EditorTypeCode.BtnText,
             [typeof(object)] = EditorTypeCode.Object,
+            [typeof(string[])] = EditorTypeCode.SubText,
         };
 
         public string ResolveCategory(PropertyDescriptor propertyDescriptor)
@@ -100,6 +101,7 @@ namespace HandyControl.Controls
                     EditorTypeCode.VerticalAlignment => new VerticalAlignmentPropertyEditor(),
                     EditorTypeCode.ImageSource => new ImagePropertyEditor(),
                     EditorTypeCode.BtnText => new BtnTextPropertyEditor(),
+                    EditorTypeCode.SubText => new SubTextPropertyEditor(),
                     EditorTypeCode.Object => new EnumStrPropertyEditor(),
                     _ => new ReadOnlyTextPropertyEditor()
                 }
@@ -128,7 +130,8 @@ namespace HandyControl.Controls
             VerticalAlignment,
             ImageSource,
             Object,
-            BtnText
+            BtnText,
+            SubText
         }
     }
 }

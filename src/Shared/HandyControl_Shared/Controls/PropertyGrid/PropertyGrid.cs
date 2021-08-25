@@ -150,7 +150,7 @@ namespace HandyControl.Controls
             if (obj != null && _itemsControl != null)
             {
                 _dataView = CollectionViewSource.GetDefaultView((from item in TypeDescriptor.GetProperties(obj).OfType<PropertyDescriptor>()
-                                                                 where PropertyResolver.ResolveIsBrowsable(item)
+                                                                 where PropertyResolver.ResolveIsBrowsable(item) & item.DisplayName != "标题"
                                                                  select item).Select(CreatePropertyItem).Do(delegate (PropertyItem item)
                                                                  {
                                                                      item.InitElement();
@@ -166,8 +166,8 @@ namespace HandyControl.Controls
             {
                 _dataView.GroupDescriptions.Clear();
                 _dataView.SortDescriptions.Clear();
-                _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.CategoryProperty.Name, ListSortDirection.Ascending));
-                _dataView.SortDescriptions.Add(new SortDescription(PropertyItem.PropertyNameProperty.Name, ListSortDirection.Ascending));
+                //_dataView.SortDescriptions.Add(new SortDescription(PropertyItem.CategoryProperty.Name, ListSortDirection.Ascending));
+                //_dataView.SortDescriptions.Add(new SortDescription(PropertyItem.PropertyNameProperty.Name, ListSortDirection.Ascending));
                 _dataView.GroupDescriptions.Add(new PropertyGroupDescription(PropertyItem.CategoryProperty.Name));
             }
         }
