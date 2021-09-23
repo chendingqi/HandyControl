@@ -7,84 +7,89 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace HandyControl.Controls
 {
     public class SubTextPropertyEditor : PropertyEditorBase
     {
         #region 最后开发
-        //private CheckComboBox checkComboBox;
-        //public override FrameworkElement CreateElement(PropertyItem propertyItem)
-        //{
-        //    if (propertyItem.DisplayName == "辅助按钮")
-        //    {
-        //        checkComboBox = new CheckComboBox();
-        //        var list = new List<CategoryInfo>();
-        //        list.Add(new CategoryInfo
-        //        {
-        //            Name = "Alt",
-        //            Value = "Alt",
-        //        });
-        //        list.Add(new CategoryInfo
-        //        {
-        //            Name = "Ctrl",
-        //            Value = "Ctrl"
-        //        });
-        //        list.Add(new CategoryInfo
-        //        {
-        //            Name = "Shift",
-        //            Value = "Shift"
-        //        });
-        //        list.Add(new CategoryInfo
-        //        {
-        //            Name = "Win",
-        //            Value = "Win"
-        //        });
-        //        checkComboBox.ItemsSource = list;
-        //        checkComboBox.DisplayMemberPath = "Name";
-        //        checkComboBox.SelectedValuePath = "Value";
-        //        checkComboBox.SelectionChanged += CheckComboBox_SelectionChanged;
-        //        return checkComboBox;
-        //    }
-        //    else
-        //    {
-        //        return new System.Windows.Controls.TextBox
-        //        {
-        //            IsReadOnly = propertyItem.IsReadOnly
-        //        };
-        //    }
-        //}
-
-        //private void CheckComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        //{
-        //    var str = "";
-        //    var s = sender as CheckComboBox;
-        //    for (var i = 0; i < s.SelectedItems.Count; i++)
-        //    {
-        //        str += ((CategoryInfo) s.SelectedItems[i]).Value + ",";
-        //    }
-        //    var subStr = str.Trim(',').Split(',');
-        //    checkComboBox.CheckText = subStr;
-        //}
-
-        //public override DependencyProperty GetDependencyProperty()
-        //{
-        //    return CheckComboBox.CheckTextProperty;
-        //} 
-        #endregion
-
-
+        private CheckComboBox checkComboBox;
         public override FrameworkElement CreateElement(PropertyItem propertyItem)
         {
-            return new System.Windows.Controls.TextBox
+            if (propertyItem.DisplayName == "辅助按钮")
             {
-                IsReadOnly = propertyItem.IsReadOnly
-            };
+                var str= propertyItem.Value.GetType().GetProperty(propertyItem.PropertyName).GetValue(propertyItem.Value);
+                checkComboBox = new CheckComboBox();
+                var list = new List<string>();
+                list.Add("Alt");
+                list.Add("Ctrl");
+                list.Add("Shift");
+                list.Add("Win");
+                checkComboBox.ItemsSource = list;
+                checkComboBox.SelectionChanged += CheckComboBox_SelectionChanged;
+                checkComboBox.SelectionMode = SelectionMode.Multiple;
+                Task.Run(() =>
+                {
+                    Init(checkComboBox, str);
+                });
+                return checkComboBox;
+            }
+            else
+            {
+                return new System.Windows.Controls.TextBox
+                {
+                    IsReadOnly = propertyItem.IsReadOnly
+                };
+            }
+        }
+        private void Init(CheckComboBox checkComboBox, object str)
+        {
+            Thread.Sleep(100);
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                checkComboBox.IsDropDownOpen = true;
+                checkComboBox.IsDropDownOpen = false;
+            }), DispatcherPriority.Send);
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+            {
+                if (str != null)
+                {
+                    foreach (var item in checkComboBox.Items)
+                    {
+                        if (checkComboBox.ItemContainerGenerator.ContainerFromItem(item) is CheckComboBoxItem checkComboBoxItem)
+                        {
+                            if ((str as string[]).Contains((string) item))
+                            {
+                                checkComboBoxItem.SetCurrentValue(ListBoxItem.IsSelectedProperty, true);
+                            }
+                            else
+                            {
+                                checkComboBoxItem.SetCurrentValue(ListBoxItem.IsSelectedProperty, false);
+                            }
+                        }
+                    }
+                }
+            }));
+        }
+
+        private void CheckComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var str = "";
+            var s = sender as CheckComboBox;
+            for (var i = 0; i < s.SelectedItems.Count; i++)
+            {
+                str += ((string) s.SelectedItems[i]) + ",";
+            }
+            var subStr = str.Trim(',').Split(',');
+            checkComboBox.CheckText = subStr;
         }
 
         public override DependencyProperty GetDependencyProperty()
         {
-            return System.Windows.Controls.TextBox.TextProperty;
+            return CheckComboBox.CheckTextProperty;
         }
+        #endregion
     }
 }

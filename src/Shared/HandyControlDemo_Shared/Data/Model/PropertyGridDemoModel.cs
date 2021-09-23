@@ -23,6 +23,10 @@ namespace HandyControlDemo.Data
         public VerticalAlignment VerticalAlignment { get; set; }
 
         public ImageSource ImageSource { get; set; }
+
+        [Category("可选")]
+        [DisplayName("辅助按钮")]
+        public string[] strname { get; set; }
     }
 
     public enum Gender

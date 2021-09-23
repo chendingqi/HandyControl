@@ -9,13 +9,16 @@ namespace HandyControlDemo.UserControl
         {
             InitializeComponent();
 
+            string[] str = "Alt,Ctrl,Shift".Split(',');
+
             DemoModel = new PropertyGridDemoModel
             {
                 String = "TestString",
                 Enum = Gender.Female,
                 Boolean = true,
                 Integer = 98,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                strname = str
             };
         }
 

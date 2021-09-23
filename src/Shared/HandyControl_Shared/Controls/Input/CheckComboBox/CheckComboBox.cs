@@ -158,11 +158,11 @@ namespace HandyControl.Controls
                 _selectAllItem.Unselected += SelectAllItem_Unselected;
             }
 
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                IsDropDownOpen = true;
-                IsDropDownOpen = false;
-            }), DispatcherPriority.DataBind);
+            //Dispatcher.BeginInvoke(new Action(() =>
+            //{
+            //    IsDropDownOpen = true;
+            //    IsDropDownOpen = false;
+            //}), DispatcherPriority.Send);
         }
 
         public bool VerifyData()
