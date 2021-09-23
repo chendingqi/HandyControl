@@ -15,6 +15,9 @@ namespace HandyControl.Controls
     {
         #region 最后开发
         private CheckComboBox checkComboBox;
+
+        //是否正在设置选中
+        private bool isChange = false;
         public override FrameworkElement CreateElement(PropertyItem propertyItem)
         {
             if (propertyItem.DisplayName == "辅助按钮")
@@ -45,19 +48,20 @@ namespace HandyControl.Controls
         }
         private void Init(CheckComboBox checkComboBox, object str)
         {
-            Thread.Sleep(100);
+            Thread.Sleep(200);
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 checkComboBox.IsDropDownOpen = true;
                 checkComboBox.IsDropDownOpen = false;
             }), DispatcherPriority.Send);
-
+            Thread.Sleep(100);
             Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
             {
                 if (str != null)
                 {
                     foreach (var item in checkComboBox.Items)
                     {
+                        isChange = true;
                         if (checkComboBox.ItemContainerGenerator.ContainerFromItem(item) is CheckComboBoxItem checkComboBoxItem)
                         {
                             if ((str as string[]).Contains((string) item))
@@ -70,20 +74,23 @@ namespace HandyControl.Controls
                             }
                         }
                     }
+                    isChange = false;
                 }
             }));
         }
 
         private void CheckComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            var str = "";
-            var s = sender as CheckComboBox;
-            for (var i = 0; i < s.SelectedItems.Count; i++)
-            {
-                str += ((string) s.SelectedItems[i]) + ",";
+            if (!isChange) {
+                var str = "";
+                var s = sender as CheckComboBox;
+                for (var i = 0; i < s.SelectedItems.Count; i++)
+                {
+                    str += ((string) s.SelectedItems[i]) + ",";
+                }
+                var subStr = str.Trim(',').Split(',');
+                checkComboBox.CheckText = subStr;
             }
-            var subStr = str.Trim(',').Split(',');
-            checkComboBox.CheckText = subStr;
         }
 
         public override DependencyProperty GetDependencyProperty()
