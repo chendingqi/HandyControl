@@ -87,6 +87,9 @@
     <Resource Include="..\..\Shared\HandyControl_Shared\Resources\btnview.png">
       <Link>Resources\btnview.png</Link>
     </Resource>
+    <Resource Include="..\..\Shared\HandyControl_Shared\Resources\FolderBottomPanel_16x.png">
+      <Link>Resources\FolderBottomPanel_16x.png</Link>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
